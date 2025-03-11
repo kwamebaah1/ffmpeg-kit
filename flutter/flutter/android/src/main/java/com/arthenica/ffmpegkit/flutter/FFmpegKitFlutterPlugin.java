@@ -961,8 +961,8 @@ public class FFmpegKitFlutterPlugin implements FlutterPlugin, ActivityAware, Met
     //}
 
     protected void mediaInformationSession(@NonNull final List<String> arguments, @NonNull final Result result) {
-        String[] argumentsArray = arguments.toArray(new String[0]);
-        final MediaInformationSession session = FFprobeKit.getMediaInformation(argumentsArray);
+        String command = String.join(" ", arguments);
+        final MediaInformationSession session = FFprobeKit.getMediaInformation(command);
         resultHandler.successAsync(result, toMap(session));
     }
 
