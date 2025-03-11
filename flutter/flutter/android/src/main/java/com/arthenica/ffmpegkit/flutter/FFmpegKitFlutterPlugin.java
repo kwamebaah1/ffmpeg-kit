@@ -72,6 +72,7 @@ import io.flutter.plugin.common.EventChannel;
 import io.flutter.plugin.common.MethodCall;
 import io.flutter.plugin.common.MethodChannel;
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler;
+import io.flutter.plugin.common.PluginRegistry.ActivityResultListener;
 import io.flutter.plugin.common.MethodChannel.Result;
 //import io.flutter.plugin.common.PluginRegistry;
 
@@ -960,7 +961,7 @@ public class FFmpegKitFlutterPlugin implements FlutterPlugin, ActivityAware, Met
     //}
 
     protected void mediaInformationSession(@NonNull final List<String> arguments, @NonNull final Result result) {
-        final MediaInformationSession session = FFprobeKit.getMediaInformation(arguments.toArray(new String[arguments.size()]));
+        final MediaInformationSession session = FFprobeKit.getMediaInformation(arguments.toArray(new String[0]));
         resultHandler.successAsync(result, toMap(session));
     }
 
