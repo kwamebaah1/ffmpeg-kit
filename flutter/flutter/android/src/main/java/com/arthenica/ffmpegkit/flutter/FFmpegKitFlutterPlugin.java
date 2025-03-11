@@ -75,8 +75,8 @@ import io.flutter.plugin.common.MethodChannel.MethodCallHandler;
 import io.flutter.plugin.common.MethodChannel.Result;
 //import io.flutter.plugin.common.PluginRegistry;
 
-public class FFmpegKitFlutterPlugin implements FlutterPlugin, ActivityAware, MethodCallHandler, EventChannel.StreamHandler, PluginRegistry.ActivityResultListener {
-
+//public class FFmpegKitFlutterPlugin implements FlutterPlugin, ActivityAware, MethodCallHandler, EventChannel.StreamHandler, PluginRegistry.ActivityResultListener {
+public class FFmpegKitFlutterPlugin implements FlutterPlugin, ActivityAware, MethodCallHandler, EventChannel.StreamHandler, ActivityResultListener {
     public static final String LIBRARY_NAME = "ffmpeg-kit-flutter";
     public static final String PLATFORM_NAME = "android";
 
@@ -242,6 +242,29 @@ public class FFmpegKitFlutterPlugin implements FlutterPlugin, ActivityAware, Met
         this.eventSink = null;
         Log.d(LIBRARY_NAME, "FFmpegKitFlutterPlugin stopped listening to events.");
     }
+
+    //@Override
+    //public boolean onActivityResult(final int requestCode, final int resultCode, final Intent data) {
+        //Log.d(LIBRARY_NAME, String.format("selectDocument completed with requestCode: %d, resultCode: %d, data: %s.", requestCode, resultCode, data == null ? null : data.toString()));
+
+        //if (requestCode == READABLE_REQUEST_CODE || requestCode == WRITABLE_REQUEST_CODE) {
+            //if (resultCode == Activity.RESULT_OK) {
+                //if (data == null) {
+                    //resultHandler.successAsync(lastInitiatedIntentResult, null);
+                //} else {
+                    //final Uri uri = data.getData();
+                    //resultHandler.successAsync(lastInitiatedIntentResult, uri == null ? null : uri.toString());
+                //}
+            //} else {
+                //resultHandler.errorAsync(lastInitiatedIntentResult, "SELECT_CANCELLED", String.valueOf(resultCode));
+            //}
+
+            //return true;
+        //} else {
+            //Log.i(LIBRARY_NAME, String.format("FFmpegKitFlutterPlugin ignored unsupported activity result for requestCode: %d.", requestCode));
+            //return false;
+        //}
+    //}
 
     @Override
     public boolean onActivityResult(final int requestCode, final int resultCode, final Intent data) {
@@ -879,7 +902,7 @@ public class FFmpegKitFlutterPlugin implements FlutterPlugin, ActivityAware, Met
     //}
 
     protected void ffmpegSession(@NonNull final List<String> arguments, @NonNull final Result result) {
-        final FFmpegSession session = new FFmpegSession(arguments.toArray(new String[0]), null, null, null, LogRedirectionStrategy.NEVER_PRINT_LOGS);
+        final FFmpegSession session = FFmpegKit.executeWithArguments(arguments.toArray(new String[0]));
         resultHandler.successAsync(result, toMap(session));
     }
 
@@ -937,7 +960,7 @@ public class FFmpegKitFlutterPlugin implements FlutterPlugin, ActivityAware, Met
     //}
 
     protected void mediaInformationSession(@NonNull final List<String> arguments, @NonNull final Result result) {
-        final MediaInformationSession session = FFprobeKit.getMediaInformation(arguments.toArray(new String[0]));
+        final MediaInformationSession session = FFprobeKit.getMediaInformation(arguments.toArray(new String[arguments.size()]));
         resultHandler.successAsync(result, toMap(session));
     }
 
