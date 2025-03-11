@@ -73,7 +73,7 @@ import io.flutter.plugin.common.MethodCall;
 import io.flutter.plugin.common.MethodChannel;
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler;
 import io.flutter.plugin.common.MethodChannel.Result;
-import io.flutter.plugin.common.PluginRegistry;
+//import io.flutter.plugin.common.PluginRegistry;
 
 public class FFmpegKitFlutterPlugin implements FlutterPlugin, ActivityAware, MethodCallHandler, EventChannel.StreamHandler, PluginRegistry.ActivityResultListener {
 
@@ -153,16 +153,27 @@ public class FFmpegKitFlutterPlugin implements FlutterPlugin, ActivityAware, Met
         Log.d(LIBRARY_NAME, String.format("FFmpegKitFlutterPlugin created %s.", this));
     }
 
-    @SuppressWarnings("deprecation")
-    public static void registerWith(final io.flutter.plugin.common.PluginRegistry.Registrar registrar) {
-        final Context context = (registrar.activity() != null) ? registrar.activity() : registrar.context();
-        if (context == null) {
-            Log.w(LIBRARY_NAME, "FFmpegKitFlutterPlugin can not be registered without a context.");
-            return;
-        }
-        FFmpegKitFlutterPlugin plugin = new FFmpegKitFlutterPlugin();
-        plugin.init(registrar.messenger(), context, registrar.activity(), registrar, null);
-    }
+    //@SuppressWarnings("deprecation")
+    //public static void registerWith(final io.flutter.plugin.common.PluginRegistry.Registrar registrar) {
+        //final Context context = (registrar.activity() != null) ? registrar.activity() : registrar.context();
+        //if (context == null) {
+            //Log.w(LIBRARY_NAME, "FFmpegKitFlutterPlugin can not be registered without a context.");
+            //return;
+        //}
+        //FFmpegKitFlutterPlugin plugin = new FFmpegKitFlutterPlugin();
+        //plugin.init(registrar.messenger(), context, registrar.activity(), registrar, null);
+    //}
+
+    //@SuppressWarnings("deprecation")
+    //public static void registerWith(final io.flutter.plugin.common.PluginRegistry.Registrar registrar) {
+        //final Context context = (registrar.activity() != null) ? registrar.activity() : registrar.context();
+        //if (context == null) {
+            //Log.w(LIBRARY_NAME, "FFmpegKitFlutterPlugin can not be registered without a context.");
+            //return;
+        //}
+        //FFmpegKitFlutterPlugin plugin = new FFmpegKitFlutterPlugin();
+        //plugin.init(registrar.messenger(), context, registrar.activity(), registrar, null);
+    //}
 
     protected void registerGlobalCallbacks() {
         FFmpegKitConfig.enableFFmpegSessionCompleteCallback(this::emitSession);
@@ -192,10 +203,16 @@ public class FFmpegKitFlutterPlugin implements FlutterPlugin, ActivityAware, Met
         this.flutterPluginBinding = null;
     }
 
+    //@Override
+    //public void onAttachedToActivity(@NonNull ActivityPluginBinding activityPluginBinding) {
+        //Log.d(LIBRARY_NAME, String.format("FFmpegKitFlutterPlugin %s attached to activity %s.", this, activityPluginBinding.getActivity()));
+        //init(flutterPluginBinding.getBinaryMessenger(), flutterPluginBinding.getApplicationContext(), activityPluginBinding.getActivity(), null, activityPluginBinding);
+    //}
+
     @Override
     public void onAttachedToActivity(@NonNull ActivityPluginBinding activityPluginBinding) {
         Log.d(LIBRARY_NAME, String.format("FFmpegKitFlutterPlugin %s attached to activity %s.", this, activityPluginBinding.getActivity()));
-        init(flutterPluginBinding.getBinaryMessenger(), flutterPluginBinding.getApplicationContext(), activityPluginBinding.getActivity(), null, activityPluginBinding);
+        init(flutterPluginBinding.getBinaryMessenger(), flutterPluginBinding.getApplicationContext(), activityPluginBinding.getActivity(), activityPluginBinding);
     }
 
     @Override
@@ -648,7 +665,38 @@ public class FFmpegKitFlutterPlugin implements FlutterPlugin, ActivityAware, Met
     }
 
     @SuppressWarnings("deprecation")
-    protected void init(final BinaryMessenger messenger, final Context context, final Activity activity, final io.flutter.plugin.common.PluginRegistry.Registrar registrar, final ActivityPluginBinding activityBinding) {
+    //protected void init(final BinaryMessenger messenger, final Context context, final Activity activity, final io.flutter.plugin.common.PluginRegistry.Registrar registrar, final ActivityPluginBinding activityBinding) {
+        //registerGlobalCallbacks();
+
+        //if (methodChannel == null) {
+           // methodChannel = new MethodChannel(messenger, METHOD_CHANNEL);
+            //methodChannel.setMethodCallHandler(this);
+        //} else {
+            //Log.i(LIBRARY_NAME, "FFmpegKitFlutterPlugin method channel was already initialised.");
+        //}
+
+        //if (eventChannel == null) {
+            //eventChannel = new EventChannel(messenger, EVENT_CHANNEL);
+            //eventChannel.setStreamHandler(this);
+        //} else {
+            //Log.i(LIBRARY_NAME, "FFmpegKitFlutterPlugin event channel was already initialised.");
+        //}
+
+        //this.context = context;
+        //this.activity = activity;
+
+        //if (registrar != null) {
+            // V1 embedding setup for activity listeners.
+            //registrar.addActivityResultListener(this);
+        //} else {
+            // V2 embedding setup for activity listeners.
+            //activityBinding.addActivityResultListener(this);
+        //}
+
+        //Log.d(LIBRARY_NAME, String.format("FFmpegKitFlutterPlugin %s initialised with context %s and activity %s.", this, context, activity));
+    //}
+
+    protected void init(final BinaryMessenger messenger, final Context context, final Activity activity, final ActivityPluginBinding activityBinding) {
         registerGlobalCallbacks();
 
         if (methodChannel == null) {
@@ -668,13 +716,8 @@ public class FFmpegKitFlutterPlugin implements FlutterPlugin, ActivityAware, Met
         this.context = context;
         this.activity = activity;
 
-        if (registrar != null) {
-            // V1 embedding setup for activity listeners.
-            registrar.addActivityResultListener(this);
-        } else {
-            // V2 embedding setup for activity listeners.
-            activityBinding.addActivityResultListener(this);
-        }
+        // V2 embedding setup for activity listeners.
+        activityBinding.addActivityResultListener(this);
 
         Log.d(LIBRARY_NAME, String.format("FFmpegKitFlutterPlugin %s initialised with context %s and activity %s.", this, context, activity));
     }
@@ -830,6 +873,11 @@ public class FFmpegKitFlutterPlugin implements FlutterPlugin, ActivityAware, Met
 
     // FFmpegSession
 
+    //protected void ffmpegSession(@NonNull final List<String> arguments, @NonNull final Result result) {
+        //final FFmpegSession session = new FFmpegSession(arguments.toArray(new String[0]), null, null, null, LogRedirectionStrategy.NEVER_PRINT_LOGS);
+        //resultHandler.successAsync(result, toMap(session));
+    //}
+
     protected void ffmpegSession(@NonNull final List<String> arguments, @NonNull final Result result) {
         final FFmpegSession session = new FFmpegSession(arguments.toArray(new String[0]), null, null, null, LogRedirectionStrategy.NEVER_PRINT_LOGS);
         resultHandler.successAsync(result, toMap(session));
@@ -871,15 +919,25 @@ public class FFmpegKitFlutterPlugin implements FlutterPlugin, ActivityAware, Met
 
     // FFprobeSession
 
+    //protected void ffprobeSession(@NonNull final List<String> arguments, @NonNull final Result result) {
+        //final FFprobeSession session = new FFprobeSession(arguments.toArray(new String[0]), null, null, LogRedirectionStrategy.NEVER_PRINT_LOGS);
+        //resultHandler.successAsync(result, toMap(session));
+    //}
+
     protected void ffprobeSession(@NonNull final List<String> arguments, @NonNull final Result result) {
-        final FFprobeSession session = new FFprobeSession(arguments.toArray(new String[0]), null, null, LogRedirectionStrategy.NEVER_PRINT_LOGS);
+        final FFprobeSession session = FFprobeKit.executeWithArguments(arguments.toArray(new String[0]));
         resultHandler.successAsync(result, toMap(session));
     }
 
     // MediaInformationSession
 
+    //protected void mediaInformationSession(@NonNull final List<String> arguments, @NonNull final Result result) {
+        //final MediaInformationSession session = new MediaInformationSession(arguments.toArray(new String[0]), null, null);
+        //resultHandler.successAsync(result, toMap(session));
+    //}
+
     protected void mediaInformationSession(@NonNull final List<String> arguments, @NonNull final Result result) {
-        final MediaInformationSession session = new MediaInformationSession(arguments.toArray(new String[0]), null, null);
+        final MediaInformationSession session = FFprobeKit.getMediaInformation(arguments.toArray(new String[0]));
         resultHandler.successAsync(result, toMap(session));
     }
 
